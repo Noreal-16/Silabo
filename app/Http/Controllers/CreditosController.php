@@ -18,7 +18,7 @@ class CreditosController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $creditos = DB::select('CALL dbCreditos()');
+            $creditos = DB::select('CALL dbCreditos1()');
             return DataTables::of($creditos)
                 ->addIndexColumn('')
                 ->addColumn('action', function($creditos){
