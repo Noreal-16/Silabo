@@ -80,7 +80,7 @@ class CreditosController extends Controller
      */
     public function destroy(Creditos $creditos)
     {
-        //
+        //vas
     }
 
     public function cargaCombo($id){

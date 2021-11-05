@@ -78,5 +78,8 @@ class DepartamentoController extends Controller
     public function destroy(Departamento $departamento)
     {
         //
+
+
+        
     }
 }
