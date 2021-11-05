@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateActividadesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('actividades', function (Blueprint $table) {
+            $table->id();
+            $table->string('nActividades');
+            $table->string('recursos');
+            $table->string('instrumentos');
+            $table->string('calificacion');
+            $table->unsignedBigInteger('componeteContenido_id');
+            $table->foreign('componeteContenido_id')->references('id')->on('contenido_componentes');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('actividades');
+    }
+}
