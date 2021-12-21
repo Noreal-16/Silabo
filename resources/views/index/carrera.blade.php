@@ -283,7 +283,7 @@
             })
         });
     </script>
-    <script>
+
     </script>
     <script>
         var idDepartamento;

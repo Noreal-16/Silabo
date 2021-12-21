@@ -50,6 +50,14 @@ class CarreraController extends Controller
         return redirect()->route('carrera.index');
     }
 
+    public function cargaDatosComboCarreras(Request $request)
+    {
+        if ($request->ajax()){
+            $carrera = DB::select('CALL comboCarreras()');
+            return response()->json($carrera);
+        }
+    }
+
     /**
      * Display the specified resource.
      *

@@ -15,8 +15,8 @@ class CreatePeriodoAcademicosTable extends Migration
     {
         Schema::create('periodo_academicos', function (Blueprint $table) {
             $table->id();
-            $table->date('fechaInicio');
-            $table->date('fechaFin');
+            $table->string('fechaInicio');
+            $table->string('fechaFin');
             $table->unsignedBigInteger('carrera_id');
             $table->foreign('carrera_id')->references('id')->on('carreras');
             $table->timestamps();

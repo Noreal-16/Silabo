@@ -14,4 +14,9 @@ class periodoAcademico extends Model
     public function ciclo(){
         return $this->belongsTo(ciclos::class);
     }
+    protected $table = 'periodos';
+    protected $fillable=[
+        'fechaInicio','fechaFin','carrera_id'
+    ];
+    public $timestamps = false;
 }

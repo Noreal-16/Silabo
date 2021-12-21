@@ -9,6 +9,8 @@ use App\Http\Controllers\ComponenteController;
 use App\Http\Controllers\CreditosController;
 use App\Http\Controllers\FacultadController;
 use App\Http\Controllers\ResultadoController;
+use App\Http\Controllers\PeriodoAcademicoController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +54,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('resultados', [ResultadoCon
   * CRUD Carrera --Facultad
   */
 Route::middleware(['auth:sanctum', 'verified'])->get('carrera', [CarreraController::class, 'index'])->name('carrera.index');
+Route::middleware(['auth:sanctum', 'verified'])->get('carrera/carga/combo', [CarreraController::class, 'cargaDatosComboCarreras'])->name('carrera.cargaDatosComboCarreras');
 Route::middleware(['auth:sanctum', 'verified'])->post('carrera', [CarreraController::class, 'store'])->name('carrera.store');
 Route::middleware(['auth:sanctum', 'verified'])->get('carrera/show/{id}', [CarreraController::class, 'show'])->name('carrera.show');
 Route::middleware(['auth:sanctum', 'verified'])->post('carrera/update', [CarreraController::class, 'update'])->name('carrera.update');
@@ -85,3 +88,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('creditos/dataCreditos', [C
  * Actividades de Aprendizaje
  */
 Route::middleware(['auth:sanctum', 'verified'])->get('actividades', [ActividadesController::class, 'index'])->name('actividades.index');
+/**
+ * Periodo Academico - Ciclos
+ */
+Route::middleware(['auth:sanctum', 'verified'])->get('periodos', [PeriodoAcademicoController::class, 'index'])->name('periodos.index');
+Route::middleware(['auth:sanctum', 'verified'])->get('periodos/datos', [PeriodoAcademicoController::class, 'cargaDatosComboPeriodo'])->name('periodos.cargaDatosComboPeriodo');
+Route::middleware(['auth:sanctum', 'verified'])->post('periodos', [PeriodoAcademicoController::class, 'store'])->name('periodos.store');

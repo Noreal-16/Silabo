@@ -14,9 +14,18 @@ class PeriodoAcademicoController extends Controller
      */
     public function index()
     {
-        //
+        return view('index.periodoAc');
     }
-
+    /**
+     * Carga datos de periodo academico
+     */
+    public function cargaDatosComboPeriodo(Request $request)
+    {
+        if ($request->ajax()){
+            $periodos = DB::select('CALL dbPeriodos()');
+            return response()->json($periodos);
+        }
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -26,6 +35,12 @@ class PeriodoAcademicoController extends Controller
     public function store(Request $request)
     {
         //
+        $periodos = new periodoAcademico;
+        $periodos->fechaInicio = $request->input('nFechaInicio');
+        $periodos->fechaFin = $request->input('nFechaFin');
+        $periodos->carrera_id = $request->input('comboCarrera');
+        $periodos->save();
+        return redirect()->route('periodos.index');
     }
 
     /**
