@@ -117,8 +117,6 @@
     <script>
         //Metodo para Cargar datos de Periodo Academico
         $(document).ready(function() {
-            console.log('ingresado');
-            console.log('{{ route('periodos.cargaDatosComboPeriodo') }}');
             $.get("{{ route('periodos.cargaDatosComboPeriodo') }}", function(periodos) {
                 //asignar datos recuperados
                 console.log(periodos);
@@ -127,7 +125,7 @@
                     opcion += '<option  value= ' + item.id + '>' + item.fechaInicio +  '</option>';
                     console.log(item.fechaInicio);
                 });
-                //$("#comboPeriodoAc").html(opcion);
+                $("#comboPeriodoAc").html(opcion);
 
             })
         });
