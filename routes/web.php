@@ -40,6 +40,18 @@ Route::middleware(['auth:sanctum', 'verified'])->get('informacion', [Informacion
  * Descripcion de la Asignatura
  */
 Route::middleware(['auth:sanctum', 'verified'])->get('asignatura', [AsignaturaController::class, 'index'])->name('asignatura.index');
+Route::middleware(['auth:sanctum', 'verified'])->post('asignatura', [AsignaturaController::class, 'store'])->name('asignatura.store');
+Route::middleware(['auth:sanctum', 'verified'])->post('asignatura/update', [AsignaturaController::class, 'update'])->name('asignatura.update');
+Route::middleware(['auth:sanctum', 'verified'])->get('asignatura/show/{id}', [AsignaturaController::class, 'show'])->name('asignatura.show');
+
+
+ //Route::middleware(['auth:sanctum', 'verified'])->post('asignatura', [FacultadController::class, 'store'])->name('facultad.store');
+//Route::middleware(['auth:sanctum', 'verified'])->get('asignatura/datos', [FacultadController::class, 'cargaDatos'])->name('asignatura.cargaDatos');
+//Route::middleware(['auth:sanctum', 'verified'])->get('asignatura/lista', [FacultadController::class, 'cargaListaDatos'])->name('facultad.cargaListaDatos');
+//Route::middleware(['auth:sanctum', 'verified'])->get('asignatura/combo/{id}', [FacultadController::class, 'cargaCombo'])->name('facultad.cargaCombo');
+//Route::middleware(['auth:sanctum', 'verified'])->get('asignatura/lista/{id}', [FacultadController::class, 'listaCombo'])->name('facultad.listaCombo');
+
+
 /**
  * Resultados de Aprendizaje y contenidos
  */
@@ -85,3 +97,4 @@ Route::middleware(['auth:sanctum', 'verified'])->get('creditos/dataCreditos', [C
  * Actividades de Aprendizaje
  */
 Route::middleware(['auth:sanctum', 'verified'])->get('actividades', [ActividadesController::class, 'index'])->name('actividades.index');
+
