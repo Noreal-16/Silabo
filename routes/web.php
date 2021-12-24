@@ -92,5 +92,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('actividades', [Actividades
  * Periodo Academico - Ciclos
  */
 Route::middleware(['auth:sanctum', 'verified'])->get('periodos', [PeriodoAcademicoController::class, 'index'])->name('periodos.index');
-Route::middleware(['auth:sanctum', 'verified'])->get('periodos/datos', [PeriodoAcademicoController::class, 'cargaDatosComboPeriodo'])->name('periodos.cargaDatosComboPeriodo');
+Route::middleware(['auth:sanctum', 'verified'])->get('periodos/datosPeriodos', [PeriodoAcademicoController::class, 'cargaDatosComboPeriodo'])->name('periodos.cargaDatosComboPeriodo');
 Route::middleware(['auth:sanctum', 'verified'])->post('periodos', [PeriodoAcademicoController::class, 'store'])->name('periodos.store');

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\periodoAcademico;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use Yajra\DataTables\Facades\DataTables as DataTables;
 
 class PeriodoAcademicoController extends Controller
 {
