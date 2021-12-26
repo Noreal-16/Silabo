@@ -63,7 +63,9 @@ Route::middleware(['auth:sanctum', 'verified'])->post('carrera/update', [Carrera
  */
 Route::middleware(['auth:sanctum', 'verified'])->post('facultad', [FacultadController::class, 'store'])->name('facultad.store');
 Route::middleware(['auth:sanctum', 'verified'])->get('facultad/datos', [FacultadController::class, 'cargaDatos'])->name('facultad.cargaDatos');
+Route::middleware(['auth:sanctum', 'verified'])->get('facultad/periodo', [FacultadController::class, 'cargaDatosFP'])->name('facultad.cargaDatosFP');
 Route::middleware(['auth:sanctum', 'verified'])->get('facultad/lista', [FacultadController::class, 'cargaListaDatos'])->name('facultad.cargaListaDatos');
+Route::middleware(['auth:sanctum', 'verified'])->get('facultad/periodo/{id}', [FacultadController::class, 'cargaDatosFacuPeriodo'])->name('facultad.cargaDatosFacuPeriodo');
 Route::middleware(['auth:sanctum', 'verified'])->get('facultad/combo/{id}', [FacultadController::class, 'cargaCombo'])->name('facultad.cargaCombo');
 Route::middleware(['auth:sanctum', 'verified'])->get('facultad/lista/{id}', [FacultadController::class, 'listaCombo'])->name('facultad.listaCombo');
 /**

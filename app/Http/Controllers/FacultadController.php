@@ -22,6 +22,13 @@ class FacultadController extends Controller
             return response()->json($facultad);
         }
     }
+    public function cargaDatosFP(Request $request)
+    {
+        if ($request->ajax()){
+            $facultad = DB::select('CALL dbfacultades()');
+            return response()->json($facultad);
+        }
+    }
     /**
      * Metodo para cargar Data de Facultades
      */
@@ -32,6 +39,7 @@ class FacultadController extends Controller
             return response()->json($facultad);
         }
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -47,6 +55,7 @@ class FacultadController extends Controller
             $facultad->nomFacultad = $request->input('nomFacultad');
             $facultad->save();
             return redirect()->route('carrera.index');
+
         }
     }
     /**
@@ -55,6 +64,14 @@ class FacultadController extends Controller
     public function cargaCombo($id)
     {
         $facultad = DB::select('call cargaComboFacultad(?)',[$id]);
+        return response()->json($facultad);
+    }
+    /**
+     * Metodo para cargar data en combo Facultad para Periodo
+     */
+    public function cargaDatosFacuPeriodo($id)
+    {
+        $facultad = DB::select('call dbFacultadPeriodo(?);',[$id]);
         return response()->json($facultad);
     }
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\periodoAcademico;
+use App\Models\ciclos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -43,6 +44,7 @@ class PeriodoAcademicoController extends Controller
         $periodos->fechaFin = $request->input('nFechaFin');
         $periodos->carrera_id = $request->input('comboCarrera');
         $periodos->save();
+
         return redirect()->route('periodos.index');
     }
 

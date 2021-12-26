@@ -255,6 +255,7 @@
         });
     </script>
     <script>
+        //metodo para cargar facultad con id departamento
         function cargarComboFacultad(id) {
             $.get('facultad/combo/' + id, function(facultad) {
 
