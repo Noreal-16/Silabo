@@ -10,6 +10,7 @@ use App\Http\Controllers\CreditosController;
 use App\Http\Controllers\FacultadController;
 use App\Http\Controllers\ResultadoController;
 use App\Http\Controllers\PeriodoAcademicoController;
+use App\Http\Controllers\CiclosController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -55,7 +56,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('resultados', [ResultadoCon
   */
 Route::middleware(['auth:sanctum', 'verified'])->get('carrera', [CarreraController::class, 'index'])->name('carrera.index');
 Route::middleware(['auth:sanctum', 'verified'])->get('carrera/carga/combo', [CarreraController::class, 'cargaDatosComboCarreras'])->name('carrera.cargaDatosComboCarreras');
+Route::middleware(['auth:sanctum', 'verified'])->get('carrera/dataPeriodo', [CarreraController::class, 'cargaDatosCP'])->name('carrera.cargaDatosCP');
 Route::middleware(['auth:sanctum', 'verified'])->post('carrera', [CarreraController::class, 'store'])->name('carrera.store');
+Route::middleware(['auth:sanctum', 'verified'])->get('carrera/periodo/{id}', [CarreraController::class, 'cargaDatosPeriodoCarrera'])->name('carrera.cargaDatosPeriodoCarrera');
 Route::middleware(['auth:sanctum', 'verified'])->get('carrera/show/{id}', [CarreraController::class, 'show'])->name('carrera.show');
 Route::middleware(['auth:sanctum', 'verified'])->post('carrera/update', [CarreraController::class, 'update'])->name('carrera.update');
 /**
@@ -96,3 +99,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('actividades', [Actividades
 Route::middleware(['auth:sanctum', 'verified'])->get('periodos', [PeriodoAcademicoController::class, 'index'])->name('periodos.index');
 Route::middleware(['auth:sanctum', 'verified'])->get('periodos/datosPeriodos', [PeriodoAcademicoController::class, 'cargaDatosComboPeriodo'])->name('periodos.cargaDatosComboPeriodo');
 Route::middleware(['auth:sanctum', 'verified'])->post('periodos', [PeriodoAcademicoController::class, 'store'])->name('periodos.store');
+/**
+ * Ciclos
+ */
+Route::middleware(['auth:sanctum', 'verified'])->post('ciclos', [CiclosController::class, 'store'])->name('ciclos.store');

@@ -16,6 +16,7 @@ class CreateCiclosTable extends Migration
         Schema::create('ciclos', function (Blueprint $table) {
             $table->id();
             $table->string('nombreCiclo');
+            $table->string('paralelo');
             $table->unsignedBigInteger('periodo_id');
             $table->foreign('periodo_id')->references('id')->on('periodo_academicos');
             $table->timestamps();

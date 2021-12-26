@@ -30,6 +30,8 @@ class PeriodoAcademicoController extends Controller
             return response()->json($periodos);
         }
     }
+
+
     /**
      * Store a newly created resource in storage.
      *

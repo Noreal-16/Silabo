@@ -32,6 +32,21 @@ class CarreraController extends Controller
         }
         return view('index.carrera');
     }
+    public function cargaDatosCP(Request $request)
+    {
+        if ($request->ajax()){
+            $carreras = DB::select('CALL dbCarreras()');
+            return response()->json($carreras);
+        }
+    }
+    /**
+     * Metodo para cargar data en combo Carrera para Periodo
+     */
+    public function cargaDatosPeriodoCarrera($id)
+    {
+        $carrera = DB::select('call  dbCargaComboPeriodoCarrera(?);',[$id]);
+        return response()->json($carrera);
+    }
 
     /**
      * Store a newly created resource in storage.
