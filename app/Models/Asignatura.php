@@ -11,4 +11,11 @@ class Asignatura extends Model
     public function informacion(){
         return $this->hasOne(Informacion::class);
     }
+
+    protected $table = 'asignaturas';
+    protected $fillable=[
+        'presentacion','contextualizacion','contribucion', 'prerequisitos', 'adaptaciones', 'informacion_id'
+    ];
+    public $timestamps = false;
+
 }

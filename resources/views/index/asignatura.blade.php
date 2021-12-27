@@ -3,6 +3,8 @@
 @section('content_header')
     <h1>Descripción de la Asignatura</h1>
     <br>
+
+    <!--MODAL REGISTRO ASIGNATURA-->
     <section>
         <div class="modal fade " id="modalRegistroDAsignatura" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -16,7 +18,7 @@
             </button>
                     </div>
 
-                    <form id="registroAsignatura" action="" method="POST" >
+                    <form id="registroAsignatura" action="{{route('asignatura.store')}}" method="POST" >
                         @csrf
                             <div class="modal-body">
                                 <div class="input-group">
@@ -57,6 +59,9 @@
             </div>
         </div>
     </section>
+
+    <!--MODAL ACTUALIZA  ASIGNATURA-->
+
     <section>
         <div class="modal fade" id="modalRegistroActualizaDAsignatura" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -70,8 +75,10 @@
             </button>
                     </div>
 
-                    <form id="registroActualizaAsignatura" action="" method="POST" >
+                    <form id="registroActualizaAsignatura">
                         @csrf
+                        <input type="hidden" id="id_asig" name="id_asig" />
+
                             <div class="modal-body">
                                 <div class="input-group">
                                     <span class="input-group-text">Presentación:</span>
@@ -104,13 +111,16 @@
                             </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-success">Registrar</button>
+                                    <button type="submit" class="btn btn-success">Actualizar</button>
                                 </div>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+
+    <!--Tabla de Informacion ASIGNATURA --->
+
     <section class="site-section bg-white " id="testimonials-section" data-aos="fade">
         <div class="container">
             <h1 class="text-center"></h1>
@@ -127,7 +137,7 @@
                     <div class="card-body">
 
                         <div class="form-group">
-                            <table id="tablaPacientes" class="table table-sm">
+                            <table id="tablaAsignatura" class="table table-sm">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
@@ -151,8 +161,109 @@
 
 
 @section('js')
-<script >
+<script>
+        //Metodo para cargar Datos en la Tabla
+        $(document).ready(function() {
+
+            var tablaAsignatura = $('#tablaAsignatura').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{route('asignatura.index')}}",
+                },
+                columns: [{
+                        data: 'id'
+                    },
+                    {
+                        data: 'presentacion'
+                    },
+                    {
+                        data: 'contextualizacion'
+                    },
+                    {
+                        data: 'contribucion'
+                    },
+                    {
+                        data: 'prerequisitos'
+                    },
+                    {
+                        data: 'adaptaciones'
+                    },
+                    {
+                        data: 'action',
+                        orderable: false
+                    },
+                ]
+            });
+        });
+    </script>
+
+
+<script>
+
+        function editAsignatura(id) {
+            $.get('asignatura/show/' + id, function(asignatura) {
+                
+                $('#id_asig').val(asignatura[0].id);
+                $('#acPresentacion').val(asignatura[0].presentacion);
+                $('#acContextualizacion').val(asignatura[0].contextualizacion);
+                $('#acContribucion').val(asignatura[0].contribucion);                
+                $('#acPrerrequisitos').val(asignatura[0].prerequisitos);                
+                $('#acAdaptaciones').val(asignatura[0].adaptaciones);                
+                $('#modalRegistroActualizaDAsignatura').modal('toggle');
+                
+            })
+        }
+
 </script>
+
+
+<script>
+        $('#registroActualizaAsignatura').submit(function(e) {
+            e.preventDefault();
+            
+            var id2 = $('#id_asig').val();
+            var presentacion2 = $('#acPresentacion').val();
+            var contextualizacion2 = $('#acContextualizacion').val();
+            var contribucion2 = $('#acContribucion').val();
+            var prerequisitos2 = $('#acPrerrequisitos').val();
+            var adaptaciones2 = $('#acAdaptaciones').val();
+            var informacion_id2 = 1;
+            var _token2 = $("input[name=_token]").val();
+            
+
+            $.ajax({
+                url: "{{ route('asignatura.update')}}",
+                type: "POST",
+                data: {
+                    id: id2,
+                    presentacion: presentacion2,
+                    contextualizacion: contextualizacion2,
+                    contribucion: contribucion2,
+                    prerequisitos: prerequisitos2,
+                    adaptaciones: adaptaciones2,
+                    informacion_id: 1,
+                    _token: _token2
+                },
+                success: function(response) {
+                    if (response) {
+                        $('#modalRegistroActualizaDAsignatura').modal('hide');
+                        $('#tablaAsignatura').DataTable().ajax.reload();
+
+                    }else{
+                        console.log("NOOO")
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus);
+                    console.log(jqXHR.status);
+                    console.log(jqXHR);
+                }
+
+            })
+        });
+    </script>
+
 @stop
 @stop
 
