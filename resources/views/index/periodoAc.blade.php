@@ -69,7 +69,8 @@
             <div class="modal-body">
                 <div class="input-group">
                     <span class="input-group-text" id="basic-addon1">Carrera</span>
-                    <select class="form-control" name="carreraAP" id="carreraAP" onchange="cargaComboCarreraPeriodo(this.value)">
+                    <select class="form-control" name="carreraAP" id="carreraAP"
+                        onchange="cargaComboCarreraPeriodo(this.value)">
                     </select>
 
                 </div>
@@ -132,14 +133,14 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="table-responsive-sm">
-                                        <table id="tablaCarrerar" class="table table-sm data-table  ">
+                                        <table id="tablaPeriodos" class="table table-sm data-table  ">
                                             <thead>
                                                 <tr>
-                                                    <th>Id Carrera</th>
+                                                    <th>Id </th>
                                                     <th>Nombre Carrera</th>
-                                                    <th>Modalidad</th>
-                                                    <th>Departamento</th>
-                                                    <th>Facultad</th>
+                                                    <th>Periodo</th>
+                                                    <th>Periodo</th>
+                                                    <th>Ciclos</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
@@ -153,6 +154,31 @@
                 </div>
     </section>
 @section('js')
+    <script>
+        //Metodo para cargar Datos en la Tabla
+        $(document).ready(function() {
+            $.get("{{ route('periodos.index') }}", function(data){
+                console.log(data);
+            })
+            var tablaExamen = $('#tablaPeriodos').DataTable({
+                processing: true,
+                serverSide: true,
+
+                ajax: {
+                    url: "{{ route('periodos.index') }}",
+                },
+                columns: [
+                    {data:'id'},
+                    {data:'nombCarrera'},
+                    {data: 'fechaInicio'},
+                    {data: 'fechaFin'},
+                    {data: 'nombreCiclo'},
+                    {data: 'paralelo'},
+                    {data: 'action',orderable: false},
+                ]
+            });
+        });
+    </script>
     <script>
         //Metodo para Cargar datos de Periodo Academico
         $(document).ready(function() {

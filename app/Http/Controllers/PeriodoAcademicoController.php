@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\periodoAcademico;
-use App\Models\ciclos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,8 +15,20 @@ class PeriodoAcademicoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->ajax()){
+            $periodos = DB::select('CALL dbCiclosPeriodos()');
+            return DataTables::of($periodos)
+                ->addIndexColumn('')
+                ->addColumn('action', function($periodos){
+                    $acciones ='<a href="javascript:void(0)"  class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" name="delete"  class="delete btn btn-danger btn-sm">Delete</a>';
+                    //$acciones .='<button type="button" name="delete" id="" class="btn btn-danger btn-sm>Eliminar</button>';
+                    return $acciones;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
         return view('index.periodoAc');
     }
     /**
