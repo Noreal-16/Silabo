@@ -283,7 +283,12 @@ return [
             'url'  => '/componentes',
             'icon' => 'fas fa-chalkboard-teacher',
         ],
-        
+        [
+            'text' => 'Periodos',
+            'url'  => '/periodos',
+            'icon' => 'fas fa-chalkboard-teacher',
+        ],
+
 
     ],
     /*

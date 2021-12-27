@@ -26,6 +26,12 @@ class CiclosController extends Controller
     public function store(Request $request)
     {
         //
+        $ciclo = new ciclos;
+        $ciclo->nombreCiclo = $request->input('comboCiclo');
+        $ciclo->paralelo = $request->input('nomParalelo');
+        $ciclo->periodo_id = $request->input('comboPeriodoAc');
+        $ciclo->save();
+        return redirect()->route('periodos.index');
     }
 
     /**
