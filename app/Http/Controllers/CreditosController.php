@@ -32,6 +32,16 @@ class CreditosController extends Controller
         return view('index.creditos');
     }
 
+     /**
+     * Carga datos de creditos
+     */
+    public function cargaComboCreditos(Request $request)
+    {
+        if ($request->ajax()){
+            $creditos = DB::select('CALL dbCreditos()');
+            return response()->json($creditos);
+        }
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -90,7 +100,7 @@ class CreditosController extends Controller
 
     public function dataCreditos(Request $request){
         if ($request->ajax()){
-            $creditos = DB::select('CALL dbCreditos1()');
+            $creditos = DB::select('CALL dbCreditos()');
             return response()->json($creditos);
         }
     }
