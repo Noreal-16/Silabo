@@ -20,6 +20,16 @@
 
                     <form id="registroAsignatura" action="{{route('asignatura.store')}}" method="POST" >
                         @csrf
+
+                            <div class="modal-body">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">Asignatura</span>
+                                    <select class="form-control" name="nComboAsignatura" id="nComboAsignatura"
+                                    onchange="">
+
+                                    </select>
+                                </div>
+                            </div>
                             <div class="modal-body">
                                 <div class="input-group">
                                     <span class="input-group-text">Presentación:</span>
