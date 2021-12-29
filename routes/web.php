@@ -47,14 +47,6 @@ Route::middleware(['auth:sanctum', 'verified'])->post('asignatura', [AsignaturaC
 Route::middleware(['auth:sanctum', 'verified'])->post('asignatura/update', [AsignaturaController::class, 'update'])->name('asignatura.update');
 Route::middleware(['auth:sanctum', 'verified'])->get('asignatura/show/{id}', [AsignaturaController::class, 'show'])->name('asignatura.show');
 
-
- //Route::middleware(['auth:sanctum', 'verified'])->post('asignatura', [FacultadController::class, 'store'])->name('facultad.store');
-//Route::middleware(['auth:sanctum', 'verified'])->get('asignatura/datos', [FacultadController::class, 'cargaDatos'])->name('asignatura.cargaDatos');
-//Route::middleware(['auth:sanctum', 'verified'])->get('asignatura/lista', [FacultadController::class, 'cargaListaDatos'])->name('facultad.cargaListaDatos');
-//Route::middleware(['auth:sanctum', 'verified'])->get('asignatura/combo/{id}', [FacultadController::class, 'cargaCombo'])->name('facultad.cargaCombo');
-//Route::middleware(['auth:sanctum', 'verified'])->get('asignatura/lista/{id}', [FacultadController::class, 'listaCombo'])->name('facultad.listaCombo');
-
-
 /**
  * Resultados de Aprendizaje y contenidos
  */
@@ -98,6 +90,7 @@ Route::middleware(['auth:sanctum', 'verified'])->post('componentes', [Componente
  * Creditos
  */
 Route::middleware(['auth:sanctum', 'verified'])->get('creditos', [CreditosController::class, 'index'])->name('creditos.index');
+Route::middleware(['auth:sanctum', 'verified'])->get('creditos/data', [CreditosController::class, 'cargaComboCreditos'])->name('creditos.cargaComboCreditos');
 Route::middleware(['auth:sanctum', 'verified'])->post('creditos', [CreditosController::class, 'store'])->name('creditos.store');
 Route::middleware(['auth:sanctum', 'verified'])->get('creditos/cargaCombo/{id}', [CreditosController::class, 'cargaCombo'])->name('creditos.cargaCombo');
 Route::middleware(['auth:sanctum', 'verified'])->get('creditos/dataCreditos', [CreditosController::class, 'dataCreditos'])->name('creditos.dataCreditos');

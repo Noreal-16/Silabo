@@ -138,9 +138,10 @@
                                                 <tr>
                                                     <th>Id </th>
                                                     <th>Nombre Carrera</th>
-                                                    <th>Periodo</th>
-                                                    <th>Periodo</th>
+                                                    <th>Fecha de Inicio</th>
+                                                    <th>Fecha Fin</th>
                                                     <th>Ciclos</th>
+                                                    <th>Paralelos</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
@@ -159,8 +160,8 @@
         $(document).ready(function() {
             $.get("{{ route('periodos.index') }}", function(data){
                 console.log(data);
-            })
-            var tablaExamen = $('#tablaPeriodos').DataTable({
+            });
+            var tablaPeriodos = $('#tablaPeriodos').DataTable({
                 processing: true,
                 serverSide: true,
 
