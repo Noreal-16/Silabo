@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\ciclos;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
+
+use Yajra\DataTables\Facades\DataTables as DataTables;
 class CiclosController extends Controller
 {
     /**
@@ -17,6 +20,13 @@ class CiclosController extends Controller
         //
     }
 
+    public function cargaDatosCiclos(Request $request)
+    {
+        if ($request->ajax()){
+            $ciclos = DB::select('CALL dbCiclos()');
+            return response()->json($ciclos);
+        }
+    }
     /**
      * Store a newly created resource in storage.
      *

@@ -39,6 +39,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
  * Router para Información General
  */
 Route::middleware(['auth:sanctum', 'verified'])->get('informacion', [InformacionController::class, 'index'])->name('informacion.index');
+Route::middleware(['auth:sanctum', 'verified'])->get('informacion/data/{id}', [InformacionController::class, 'cargaDatosAsignatura'])->name('informacion.cargaDatosAsignatura');
+Route::middleware(['auth:sanctum', 'verified'])->post('informacion', [InformacionController::class, 'store'])->name('informacion.store');
 /**
  * Descripcion de la Asignatura
  */
@@ -107,4 +109,5 @@ Route::middleware(['auth:sanctum', 'verified'])->post('periodos', [PeriodoAcadem
 /**
  * Ciclos
  */
+Route::middleware(['auth:sanctum', 'verified'])->get('ciclos', [CiclosController::class, 'cargaDatosCiclos'])->name('ciclos.cargaDatosCiclos');
 Route::middleware(['auth:sanctum', 'verified'])->post('ciclos', [CiclosController::class, 'store'])->name('ciclos.store');

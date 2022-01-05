@@ -16,7 +16,8 @@
                         </button>
                     </div>
 
-                    <form id="registroInformacion" action="" method="POST">
+                    <form id="registroInformacion" action="{{ route('informacion.store') }}" method="POST">
+
                         @csrf
                         <div class="modal-body">
                             <div class="input-group">
@@ -66,18 +67,23 @@
                         </div>
                         <div class="modal-body">
                             <div class="input-group">
-                                <span class="input-group-text">Periodo Académico Ordinario/Nivel:</span>
-                                <input type="text" class="form-control" id="nPAON" name="nPAON"
-                                    placeholder="Ingrese Periodo Académico Ordinario/Nivel ">
+                                <span class="input-group-text">Periodo Académico Ordinario/Semestre:</span>
+                                <select class="form-control" name="nCiclos" id="nCiclos"
+                                    onchange="cargaImputCiclos(this.value)" aria-describedby="espeHelp">
+                                </select>
+
                             </div>
                         </div>
                         <div class="modal-body">
                             <div class="input-group">
-                                <span class="input-group-text">Periodo Académico Ordinario/Semestre:</span>
-                                <input type="text" class="form-control" id="nPAOS" name="nPAOS"
-                                    placeholder="Ingrese Periodo Académico Ordinario/Semestre">
+                                <span class="input-group-text">Periodo Académico Ordinario/Nivel:</span>
+                                <select class="form-control" name="nPAON" id="nPAON"
+                                    aria-describedby="espeHelp">
+                                </select>
+
                             </div>
                         </div>
+
                         <div class="modal-body">
                             <div class="input-group">
                                 <span class="input-group-text">Facultad:</span>
@@ -233,7 +239,7 @@
                             <div class="card-body">
 
                                 <div class="form-group">
-                                    <table id="tablaPacientes" class="table table-sm">
+                                    <table id="tablaInfoAsignatura" class="table table-sm">
                                         <thead>
                                             <tr>
                                                 <th>Id</th>
@@ -255,42 +261,98 @@
                 </div>
     </section>
 @section('js')
+<script>
+    //Metodo para cargar Datos en la Tabla
+    $(document).ready(function() {
 
+        var tablaAsignatura = $('#tablaInfoAsignatura').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{route('informacion.index')}}",
+            },
+            columns: [{
+                    data: 'id'
+                },
+                {
+                    data: 'asignatura'
+                },
+                {
+                    data: 'codigo'
+                },
+                {
+                    data: 'rediseñoCurricular'
+                },
+                {
+                    data: 'horas'
+                },
+                {
+                    data: 'nombreCiclo'
+                },
+                {
+                    data: 'creditos'
+                },
+                {
+                    data: 'action',
+                    orderable: false
+                },
+            ]
+        });
+    });
+</script>
     <script>
         $(document).ready(function() {
-
             $.get("{{ route('creditos.dataCreditos') }}", function(creditos) {
                 //asignar datos recuperados
                 var opcion = '';
                 $.each(creditos, function(index, item) {
-                    // console.log(item.id);
                     opcion += '<option  value= ' + item.id + '>' + item.creditos + '</option>';
                     if (item.id == 1) {
                         $("#nHoras").val(item.horas);
-                    } 
-                    //   $("#nHoras").val(item.horas); 
+                    }
                 });
                 $("#nCreditos").html(opcion);
             })
         });
 
-
         function cargaImputHoras(id) {
-            //console.log(id);
-
             $.get('creditos/cargaCombo/' + id, function(creditos) {
-
                 //asignar datos recuperados
                 $.each(creditos, function(index, item) {
                     $("#nHoras").val(item.horas);
-                    
                 });
-                // console.log(creditos.horas)
-                //  
             })
         }
+    </script>
+    <script>
+        function cargaImputCiclos(id) {
+            console.log("iNGRESO A LA CONSULTA");
+            $.get('informacion/data/' + id, function(asignatura) {
+                //asignar datos recuperados
+                var opcion = '';
+                $.each(asignatura, function(index, item) {
+                    opcion += '<option  value= ' + item.id + '>' + item.fechaInicio +' - '+ item.fechaFin + '</option>';
 
-        
+                    $("#nFacultad").val(item.nomFacultad);
+                    $("#nDepartamento").val(item.nomDepartamento);
+                    $("#nCarrera").val(item.nombCarrera);
+                });
+                $("#nPAON").html(opcion);
+            })
+        }
+        $(document).ready(function() {
+            $.get("{{ route('ciclos.cargaDatosCiclos') }}", function(ciclos) {
+                //asignar datos recuperados
+                var opcion = '';
+                $.each(ciclos, function(index, item) {
+                    opcion += '<option  value= ' + item.id + '>' + item.nombreCiclo + '</option>';
+                    if (index == 0) {
+                        cargaImputCiclos(item.id);
+                    }
+                });
+                $("#nCiclos").html(opcion);
+            })
+        });
     </script>
 @stop
 @stop
