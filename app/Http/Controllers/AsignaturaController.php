@@ -47,7 +47,7 @@ class AsignaturaController extends Controller
         $asignatura->contribucion=$request->input('contribucion');
         $asignatura->prerequisitos=$request->input('prerrequisitos');
         $asignatura->adaptaciones=$request->input('adaptaciones');
-        $asignatura->informacion_id=1;
+        $asignatura->informacion_id=$request->input('nComboAsignatura');
         $asignatura->save();
         return redirect()->route('asignatura.index');
     }

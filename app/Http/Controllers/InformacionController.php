@@ -32,6 +32,12 @@ class InformacionController extends Controller
         return view('index.info');
     }
 
+    public function cargaCombInformacion()
+    {
+        $asignatura = DB::select('call dbInfoAsignatura()');
+        return response()->json($asignatura);
+    }
+
     public function cargaDatosAsignatura($id)
     {
         $asignatura = DB::select('call  dbAsignaturaCiclos(?);',[$id]);

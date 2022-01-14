@@ -24,10 +24,7 @@
                             <div class="modal-body">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">Asignatura</span>
-                                    <select class="form-control" name="nComboAsignatura" id="nComboAsignatura"
-                                    onchange="">
-
-                                    </select>
+                                    <select class="form-control" name="nComboAsignatura" id="nComboAsignatura"></select>
                                 </div>
                             </div>
                             <div class="modal-body">
@@ -88,7 +85,14 @@
                     <form id="registroActualizaAsignatura">
                         @csrf
                         <input type="hidden" id="id_asig" name="id_asig" />
+                            <div class="modal-body">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">Asignatura</span>
+                                    <select class="form-control" name="acComboAsignatura" id="acComboAsignatura">
 
+                                    </select>
+                                </div>
+                            </div>
                             <div class="modal-body">
                                 <div class="input-group">
                                     <span class="input-group-text">Presentación:</span>
@@ -219,7 +223,8 @@
                 $('#acContextualizacion').val(asignatura[0].contextualizacion);
                 $('#acContribucion').val(asignatura[0].contribucion);                
                 $('#acPrerrequisitos').val(asignatura[0].prerequisitos);                
-                $('#acAdaptaciones').val(asignatura[0].adaptaciones);                
+                $('#acAdaptaciones').val(asignatura[0].adaptaciones);
+                $('#acComboAsignatura').val(asignatura[0].informacion_id);                     
                 $('#modalRegistroActualizaDAsignatura').modal('toggle');
                 
             })
@@ -238,7 +243,7 @@
             var contribucion2 = $('#acContribucion').val();
             var prerequisitos2 = $('#acPrerrequisitos').val();
             var adaptaciones2 = $('#acAdaptaciones').val();
-            var informacion_id2 = 1;
+            var informacion_id2 = $('#acComboAsignatura').val();
             var _token2 = $("input[name=_token]").val();
             
 
@@ -252,7 +257,7 @@
                     contribucion: contribucion2,
                     prerequisitos: prerequisitos2,
                     adaptaciones: adaptaciones2,
-                    informacion_id: 1,
+                    informacion_id: informacion_id2,
                     _token: _token2
                 },
                 success: function(response) {
@@ -272,7 +277,24 @@
 
             })
         });
-    </script>
+</script>
+
+<script>
+        //Metodo para Cargar datos de Informacion de asignatura
+        $(document).ready(function() {
+            $.get("informacion/carga/combo", function(informacion) {
+                //asignar datos recuperados
+                var opcion = '';
+                $.each(informacion, function(index, item) {
+                    opcion += '<option  value= ' + item.id + '>' + item.asignatura + '</option>';
+                });
+                console.log(informacion)
+                $("#nComboAsignatura").html(opcion);
+                $("#acComboAsignatura").html(opcion);
+
+            })
+        });
+</script>
 
 @stop
 @stop

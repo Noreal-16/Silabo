@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Resultado;
-use Illuminate\Http\Request;use Illuminate\Support\Facades\DB;
+use App\Models\Contenido;
+use App\Models\resultadoContenido;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use Yajra\DataTables\Facades\DataTables as DataTables;
 
-class ResultadoController extends Controller
+class ContenidoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +18,12 @@ class ResultadoController extends Controller
      */
     public function index(Request $request)
     {
+        //
         if($request->ajax()){
-            $subcontenido = DB::select('CALL dbSubContenidos()');
-            return DataTables::of($subcontenido)
+            $contenido = DB::select('CALL dbContenido()');
+            return DataTables::of($contenido)
                 ->addIndexColumn('')
-                ->addColumn('action', function($subcontenido){
+                ->addColumn('action', function($contenido){
                     $acciones ='<a href="javascript:void(0)" onclick="" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" name="delete"  class="delete btn btn-danger btn-sm">Delete</a>';
                     //$acciones .='<button type="button" name="delete" id="" class="btn btn-danger btn-sm>Eliminar</button>';
                     return $acciones;
@@ -28,16 +31,13 @@ class ResultadoController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-
-        return view('index.resultadoAp');
+        return view('resultados.index');
     }
 
-    public function cargaDatosComboResultados(Request $request)
+    public function cargaComContenidos($id)
     {
-        if ($request->ajax()){
-            $resultado = DB::select('CALL dbResAprendizaje()');
-            return response()->json($resultado);
-        }
+        $contenido = DB::select('call cargaComContenidos(?);',[$id]);
+        return response()->json($contenido);
     }
 
     /**
@@ -48,20 +48,26 @@ class ResultadoController extends Controller
      */
     public function store(Request $request)
     {
-        $resultado = new Resultado;
-        $resultado->nombreResultado=$request->input('resAprendizaje');
-        $resultado->informacion_id=$request->input('nComboAsignatura');
-        $resultado->save();
+        $contenido = new Contenido;
+        $contenido->nombreContenido=$request->input('nombreContenido');
+        $contenido->save();
+        
+
+        $resultadoContenido = new resultadoContenido;
+        $resultadoContenido -> resultado_id=$request->input('cbselecResultado');
+        $resultadoContenido -> contenido_id=$contenido->id; //Se obtiene ultimo id del objeto guardado
+        $resultadoContenido -> save();
         return redirect()->route('resultados.index');
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Resultado  $resultado
+     * @param  \App\Models\Contenido  $Contenido
      * @return \Illuminate\Http\Response
      */
-    public function show(Resultado $resultado)
+    public function show(Contenido $Contenido)
     {
         //
     }
@@ -69,11 +75,10 @@ class ResultadoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Resultado  $resultado
+     * @param  \App\Models\Contenido  $Contenido
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Resultado $resultado)
+    public function update(Request $request, Contenido $Contenido)
     {
         //
     }
@@ -81,10 +86,10 @@ class ResultadoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Resultado  $resultado
+     * @param  \App\Models\Contenido  $Contenido
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Resultado $resultado)
+    public function destroy(Contenido $Contenido)
     {
         //
     }

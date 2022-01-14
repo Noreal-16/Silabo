@@ -9,19 +9,25 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">
-                            Registro Facultad
+                            Resultados de Aprendizaje
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
                     </div>
 
-                    <form id="registroFacultad" action="" method="POST" >
+                    <form id="registroResulAprendizaje" action="{{ route('resultados.store') }}" method="POST" >
                         @csrf
                         <div class="modal-body">
                             <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">Asignatura</span>
+                                <select class="form-control" name="nComboAsignatura" id="nComboAsignatura"></select>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">Bimestre</span>
-                                <select class="form-control" name="selecResultado" id="selecResultado" aria-describedby="espeHelp">
+                                <select class="form-control" name="selecBimestre" id="selecBimestre" aria-describedby="espeHelp">
                                     <option value="Bimestre 1">Bimestre 1</option>
                                     <option value="Bimestre 2">Bimestre 2</option>
                                 </select>
@@ -55,20 +61,19 @@
             </button>
                     </div>
 
-                    <form id="registroFacultad" action="" method="POST" >
+                    <form id="registroContenido" action="{{ route('contenido.store') }}" method="POST" >
                         @csrf
                             <div class="modal-body">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">Resultados de Aprendizaje</span>
-                                    <select class="form-control" name="selecResultado" id="selecResultado" aria-describedby="espeHelp">
-                                        <option value="aplica">Identifica los factores implicados en el desarrollo del pensamiento abstracto</option>
+                                    <select class="form-control" name="cbselecResultado" id="cbselecResultado" aria-describedby="espeHelp">
                                     </select>
                                 </div>
                             </div>
                             <div class="modal-body">
                                 <div class="input-group">
                                     <span class="input-group-text">Unidades:</span>
-                                    <input type="text" class="form-control" id="nomUnidades" name="nomUnidades" placeholder="Unidad 1 Pensamiento Abstracto" >
+                                    <input type="text" class="form-control" id="nombreContenido" name="nombreContenido" placeholder="Unidad 1: Nombre Unidad" >
                                 </div>
                             </div>
                                 <div class="modal-footer">
@@ -81,26 +86,24 @@
         </div>
     </section>
         <section>
-        <form>
+        <form id="registroSub_Contenido" action="{{ route('subcontenido.store') }}" method="POST" >
+        @csrf
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Resultados de Aprendizaje</span>
-                <select class="form-control" name="seleResulAp" id="seleResulAp" aria-describedby="espeHelp">
-                    <option value="aplica">Identifica los factores implicados en el desarrollo del pensamiento abstracto</option>
-
+                <select class="form-control" name="selecResultado" id="selecResultado" aria-describedby="espeHelp"
+                    onchange="obtenerContenidos(this.value)">              
                 </select>
                 <button type="button" class=" btn btn-outline-success ml-auto float-left" data-toggle="modal" data-target="#modalRegistroResultado">Nuevo</button>
             </div>
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Contenidos</span>
-                <select class="form-control" name="selecUnidad" id="selecUnidad" aria-describedby="espeHelp">
-                    <option value="aplica">Unidad 1 </option>
-                    <option value="nAplica">Unidad 2</option>
-                </select>
+                <select class="form-control" name="unidades" id="unidades" aria-describedby="espeHelp">
+            </select>
                 <button type="button" class=" btn btn-outline-success ml-auto float-left" data-toggle="modal" data-target="#modalRegistroContenidos">Nuevo</button>
               </div>
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Sub-Unidades</span>
-                <input type="text" class="form-control" name="subUnidades" id="subUnidades"  aria-label="sub-unidades" aria-describedby="basic-addon1" placeholder="Ingrese Sub-Unidades">
+                <input type="text" class="form-control" name="nombreSubContenido" id="nombreSubContenido"  aria-label="sub-unidades" aria-describedby="basic-addon1" placeholder="Ingrese Sub-Unidades">
               </div>
               <div class="modal-footer">
                 <button type="submit" class="btn btn-success">Registrar</button>
@@ -128,7 +131,7 @@
 
                             <div class="form-group">
                                 <div class="table-responsive-sm">
-                                <table id="tablaCategoria" class="table table-hover data-table">
+                                <table id="tablaResultados" class="table table-hover data-table">
                                     <thead>
                                         <tr>
                                             <th>Id Contenido</th>
@@ -148,7 +151,97 @@
         </section>
 @section('js')
 <script>
+        //Metodo para Cargar datos de Informacion de asignatura
+        $(document).ready(function() {
+            $.get("informacion/carga/combo", function(informacion) {
+                //asignar datos recuperados
+                var opcion = '';
+                $.each(informacion, function(index, item) {
+                    opcion += '<option  value= ' + item.id + '>' + item.asignatura + '</option>';
+                });
+                $("#nComboAsignatura").html(opcion);
+
+            })
+        });
+
+        //Metodo para Cargar datos de resultados aprendizaje
+        $(document).ready(function() {
+            $.get("{{route('resultados.cargaDatosComboResultados')}}", function(resultados) {
+                //asignar datos recuperados
+                var opcion = '';
+                $.each(resultados, function(index, item) {
+                    opcion += '<option  value= ' + item.id + '>' + item.nombreResultado + '</option>';
+                });
+                $("#selecResultado").html(opcion);
+                $("#cbselecResultado").html(opcion);
+                
+                obtenerContenidos(resultados[0].id);
+
+            })
+        });
+
+        //Metodo para cargar Datos en la Tabla
+        $(document).ready(function() {
+            
+           
+
+            
+            var tablaExamen = $('#tablaResultados').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('resultados.index') }}",
+                },
+                columns: [{
+                        data: 'id'
+                    },
+                {
+                    data: 'nombreContenido'
+                },
+                {
+                    data: 'nombreSubContenido'
+                },
+                {
+                    data: 'action',
+                    orderable: false
+                },
+            ]
+        });
+
+
+});
+
+        
+
 </script>
+<script>
+    //Metodo para Cargar datos de contenido       
+        /*$(document).ready(function() {
+            $.get("{{route('contenido.index')}}", function(contenido) {
+                //asignar datos recuperados
+                var opcion = '';
+                $.each(contenido.data, function(index, item) {
+                    opcion += '<option  value= ' + item.id + '>' + item.nombreContenido + '</option>';
+                });
+                $("#unidades").html(opcion);
+
+            })
+        });*/
+    function obtenerContenidos(id) {
+        $.get('contenido/lista/' + id, function(contenido) {
+            var opcion = '';
+            $.each(contenido, function(index, item) {
+                opcion += '<option  value= ' + item.id + '>' + item.nombreContenido + '</option>';
+            });
+            $("#unidades").html(opcion);
+                
+        })
+    }
+
+
+
+</script>
+
 @stop
 @stop
 

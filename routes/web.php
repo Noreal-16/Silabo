@@ -11,6 +11,10 @@ use App\Http\Controllers\FacultadController;
 use App\Http\Controllers\ResultadoController;
 use App\Http\Controllers\PeriodoAcademicoController;
 use App\Http\Controllers\CiclosController;
+use App\Http\Controllers\ResultadoContenidoController;
+use App\Http\Controllers\ContenidoComponenteController;
+use App\Http\Controllers\ContenidoController;
+use App\Http\Controllers\SubContenidoController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +45,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('informacion', [InformacionController::class, 'index'])->name('informacion.index');
 Route::middleware(['auth:sanctum', 'verified'])->get('informacion/data/{id}', [InformacionController::class, 'cargaDatosAsignatura'])->name('informacion.cargaDatosAsignatura');
 Route::middleware(['auth:sanctum', 'verified'])->post('informacion', [InformacionController::class, 'store'])->name('informacion.store');
+Route::middleware(['auth:sanctum', 'verified'])->get('informacion/carga/combo', [InformacionController::class, 'cargaCombInformacion'])->name('informacion.cargaCombInformacion');
+
 /**
  * Descripcion de la Asignatura
  */
@@ -53,6 +59,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('asignatura/show/{id}', [As
  * Resultados de Aprendizaje y contenidos
  */
 Route::middleware(['auth:sanctum', 'verified'])->get('resultados', [ResultadoController::class, 'index'])->name('resultados.index');
+Route::middleware(['auth:sanctum', 'verified'])->post('resultados', [ResultadoController::class, 'store'])->name('resultados.store');
+Route::middleware(['auth:sanctum', 'verified'])->get('resultados/carga/combo', [ResultadoController::class, 'cargaDatosComboResultados'])->name('resultados.cargaDatosComboResultados');
+
+
 /**
  * ADMINISTRADOR
  */
@@ -111,3 +121,16 @@ Route::middleware(['auth:sanctum', 'verified'])->post('periodos', [PeriodoAcadem
  */
 Route::middleware(['auth:sanctum', 'verified'])->get('ciclos', [CiclosController::class, 'cargaDatosCiclos'])->name('ciclos.cargaDatosCiclos');
 Route::middleware(['auth:sanctum', 'verified'])->post('ciclos', [CiclosController::class, 'store'])->name('ciclos.store');
+
+/**
+ * Contenido
+ */
+Route::middleware(['auth:sanctum', 'verified'])->get('contenido', [ContenidoController::class, 'index'])->name('contenido.index');
+Route::middleware(['auth:sanctum', 'verified'])->post('contenido', [ContenidoController::class, 'store'])->name('contenido.store');
+Route::middleware(['auth:sanctum', 'verified'])->get('contenido/lista/{id}', [ContenidoController::class, 'cargaComContenidos'])->name('contenido.cargaComContenidos');
+
+/**
+ * SubContenido
+ */
+//Route::middleware(['auth:sanctum', 'verified'])->get('subcontenido', [SubContenidoController::class, 'index'])->name('subcontenido.index');
+Route::middleware(['auth:sanctum', 'verified'])->post('subcontenido', [SubContenidoController::class, 'store'])->name('subcontenido.store');
